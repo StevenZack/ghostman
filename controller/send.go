@@ -36,14 +36,14 @@ func stateSend(v interface{}) {
 		model.SetStateSent(e)
 		return
 	}
-
-	back := rp.Status + "\n\n"
+	back := "Status:\n"
+	back += rp.Status + "\n\nHeaders:\n"
 	b, e := json.Marshal(rp.Header)
 	if e != nil {
 		model.SetStateSent(e)
 		return
 	}
-	back += string(b) + "\n\n"
+	back += string(b) + "\n\nBody:\n"
 
 	defer rp.Body.Close()
 	rpBody, e := ioutil.ReadAll(rp.Body)

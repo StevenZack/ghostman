@@ -8,7 +8,7 @@ type MainModel struct {
 	MethodCombo                   *FCombo
 	URLEdit, HeaderEdit, BodyEdit *FEdit
 	SendButton                    *FButton
-	RpText                        *FText
+	RpText                        *FTextArea
 }
 
 func CreateMainWin(model *MainModel) *FWin {
@@ -17,7 +17,7 @@ func CreateMainWin(model *MainModel) *FWin {
 	model.SendButton = Button().Text("SEND")
 	model.HeaderEdit = Edit()
 	model.BodyEdit = Edit()
-	model.RpText = Text("")
+	model.RpText = TextArea()
 	return Win(600, 600).Title("Ghostman").DeferShow().VBox(
 		HBox().Append(
 			model.MethodCombo,
