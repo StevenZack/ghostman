@@ -1,5 +1,9 @@
 package controller
 
-func Run(){
-	
+import (
+	"github.com/StevenZack/ghostman/model"
+)
+
+func Run() {
+	model.ShowMainWin()
 }

@@ -1,7 +1,10 @@
 package main
 
-import "github.com/StevenZack/ghostman/controller"
+import (
+	"github.com/gofaith/faithtop.libui"
+	"github.com/StevenZack/ghostman/controller"
+)
 
 func main() {
-	controller.Run()
+	faithtop.Main(controller.Run)
 }
