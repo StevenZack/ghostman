@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/tidwall/pretty"
+
 	"github.com/StevenZack/ghostman/model"
 	"github.com/StevenZack/ghostman/util"
 	"github.com/StevenZack/ghostman/vars"
@@ -43,7 +45,8 @@ func stateSend(v interface{}) {
 		model.SetStateSent(e)
 		return
 	}
-	back += string(b) + "\n\nBody:\n"
+	pb := pretty.Pretty(b)
+	back += string(pb) + "\n\nBody:\n"
 
 	defer rp.Body.Close()
 	rpBody, e := ioutil.ReadAll(rp.Body)
@@ -51,7 +54,9 @@ func stateSend(v interface{}) {
 		model.SetStateSent(e)
 		return
 	}
-
+	if rp.Header.Get("Content-Type") == "application/json" {
+		rpBody = pretty.Pretty(rpBody)
+	}
 	back += string(rpBody) + "\n\n"
 	model.SetStateSent(back)
 }

@@ -5,18 +5,19 @@ import (
 )
 
 type MainModel struct {
-	MethodCombo                   *FCombo
-	URLEdit, HeaderEdit, BodyEdit *FEdit
-	SendButton                    *FButton
-	RpText                        *FTextArea
+	MethodCombo          *FCombo
+	URLEdit              *FEdit
+	HeaderEdit, BodyEdit *FTextArea
+	SendButton           *FButton
+	RpText               *FTextArea
 }
 
 func CreateMainWin(model *MainModel) *FWin {
 	model.MethodCombo = Combo().Append("GET").Append("POST").Append("DELETE").Append("PATCH").Append("PUT").Select(0)
 	model.URLEdit = Edit().Expand().Text("http://")
 	model.SendButton = Button().Text("SEND")
-	model.HeaderEdit = Edit().Text("Content-Type:application/json;Token:123")
-	model.BodyEdit = Edit()
+	model.HeaderEdit = TextArea().Text("Content-Type:application/json\nToken:123")
+	model.BodyEdit = TextArea()
 	model.RpText = TextArea()
 	return Win(600, 600).Title("Ghostman").DeferShow().VBox(
 		HBox().Append(
@@ -25,11 +26,12 @@ func CreateMainWin(model *MainModel) *FWin {
 			model.URLEdit,
 			model.SendButton,
 		),
-		Text("Headers:"),
-		model.HeaderEdit,
-		Text("Body:"),
-		model.BodyEdit,
-		Text("Response:"),
-		model.RpText,
+		Tab().Append("RequestHeader", VBox().Append(
+			model.HeaderEdit,
+		)).Append("RequestBody", VBox().Append(
+			model.BodyEdit,
+		)).Append("Response", VBox().Append(
+			model.RpText,
+		)).Expand(),
 	)
 }

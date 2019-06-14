@@ -11,7 +11,7 @@ type Header struct {
 
 // ParseHeader ParseHeader
 func ParseHeader(s string) []Header {
-	ss := strings.Split(s, ";")
+	ss := strings.Split(s, "\n")
 	header := []Header{}
 	for _, h := range ss {
 		hs := strings.Split(h, ":")
