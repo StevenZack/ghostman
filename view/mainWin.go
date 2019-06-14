@@ -15,7 +15,7 @@ func CreateMainWin(model *MainModel) *FWin {
 	model.MethodCombo = Combo().Append("GET").Append("POST").Append("DELETE").Append("PATCH").Append("PUT").Select(0)
 	model.URLEdit = Edit().Expand().Text("http://")
 	model.SendButton = Button().Text("SEND")
-	model.HeaderEdit = Edit()
+	model.HeaderEdit = Edit().Text("Content-Type:application/json;Token:123")
 	model.BodyEdit = Edit()
 	model.RpText = TextArea()
 	return Win(600, 600).Title("Ghostman").DeferShow().VBox(
