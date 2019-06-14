@@ -1,3 +1,3 @@
 # Ghostman : A Go-written Postman
 
-![Ghostman](res/ghostman.png)
+![Ghostman](res/ghostman.jpeg)
