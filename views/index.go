@@ -17,7 +17,7 @@ var Str_index =`<!DOCTYPE html>
 
     <script type="text/tiscript">
         $(#bt).on("click",function(){
-    view.msgbox(#alert,'shit');
+    view.showWin();
 });
     </script>
 </body>
