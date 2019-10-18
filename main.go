@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/StevenZack/ghostman/logx"
 	"github.com/StevenZack/ghostman/views"
 	"github.com/sciter-sdk/go-sciter"
@@ -11,10 +8,10 @@ import (
 )
 
 func main() {
-	fmt.Println(os.Getwd())
+	run()
 }
 func run() {
-	w, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_MAIN, nil)
+	w, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_MAIN|sciter.SW_ENABLE_DEBUG, nil)
 	if e != nil {
 		logx.Error(e)
 		return

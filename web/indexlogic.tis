@@ -1,1 +1,3 @@
-asd
+$(#bt).on("click",function(){
+    view.msgbox(#alert,'shit');
+});
