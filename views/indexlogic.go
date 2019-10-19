@@ -1,5 +1,5 @@
 package views
 
-var Str_indexlogic =`$(#bt).on("click",function(){
-    view.showWin();
-});`
+var Str_indexlogic =`self.ready=function(){
+    
+}`

@@ -8,17 +8,28 @@ var Str_index =`<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ghost Man</title>
+    <style>
+        .row{
+            flow: horizontal;
+            width: *;            
+        }
+    </style>
 </head>
 
 <body>
-    hello sciter
-    <br>
-    <input type="button" name="show" value="show" id="bt">
-
+    <div class="row">
+        <select id="method">
+            <option value="get">GET</option>
+            <option value="post">POST</option>
+            <option value="put">PUT</option>
+        </select>
+        <input type="text" id="url" placeholder="http://example.com/api" value="http://" style="width: *;">
+        <input type="button" id="send" value="send">
+    </div>
     <script type="text/tiscript">
-        $(#bt).on("click",function(){
-    view.showWin();
-});
+        self.ready=function(){
+    
+}
     </script>
 </body>
 
