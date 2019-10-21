@@ -1,6 +1,26 @@
 package views
 
-var Str_index =`<!DOCTYPE html>
+var Str_error =`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Infomation</title>
+</head>
+<body>
+    map[web/error.html:<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Infomation</title>
+</head>
+<body>
+    {{.}}
+</body>
+</html> web/index.html:<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -41,7 +61,11 @@ var Str_index =`<!DOCTYPE html>
     <div>body:</div>
     <textarea id="rpbody" cols="30" rows="10" readonly></textarea>
     <script type="text/tiscript">
-        self.ready=function(){
+        {{index . "web/indexlogic.tis"}}
+    </script>
+</body>
+
+</html> web/indexlogic.tis:self.ready=function(){
     $(#send).on("click",function() {
         var method=$(#method).value;
         var url=$(#url).value;
@@ -54,8 +78,6 @@ function response(status,header,body){
     $(#rpstatus).text=status;
     $(#rpheaders).text=header;
     $(#rpbody).value=body;
-}
-    </script>
+}]
 </body>
-
 </html>`
