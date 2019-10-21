@@ -7,6 +7,12 @@ self.ready=function(){
     })
 }
 
+function setupData(method,url,rbody) {
+    $(#method).value=method;
+    $(#url).value=url;
+    $(#requestbody).value=rbody;
+}
+
 function response(status,header,body){
     $(#rpstatus).text=status;
     $(#rpheaders).text=header;

@@ -1,17 +1,52 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/StevenZack/db"
 	"github.com/StevenZack/ghostman/logx"
 	"github.com/StevenZack/ghostman/util"
 	"github.com/StevenZack/ghostman/views"
+	"github.com/StevenZack/tools/fileToolkit"
+	"github.com/StevenZack/tools/strToolkit"
 	"github.com/sciter-sdk/go-sciter"
 	"github.com/sciter-sdk/go-sciter/window"
 )
 
 func main() {
-	run()
+	db.InitDB(strToolkit.Getrpath(fileToolkit.GetHomeDir())+".ghostman", "pw")
+	run(loadOldData())
 }
-func run() {
+
+func loadOldData() (method string, url string, body string) {
+	method = "GET"
+	url = "http://"
+	oldData := db.Get("history.txt").Val()
+	if oldData != "" {
+		strs := []string{}
+		e := json.Unmarshal([]byte(oldData), &strs)
+		if e != nil {
+			fmt.Println("unmarshal old data error :", e)
+			return
+		}
+
+		if len(strs) < 3 {
+			fmt.Println("old data len<3")
+			return
+		}
+
+		return strs[0], strs[1], strs[2]
+	}
+
+	return
+}
+
+func setOldData(method, url, body string) {
+	db.Set("history.txt", []string{method, url, body})
+}
+
+func run(method, url, body string) {
 	w, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_MAIN|sciter.SW_ENABLE_DEBUG, sciter.NewRect(100, 150, 400, 600))
 	if e != nil {
 		logx.Error(e)
@@ -21,6 +56,7 @@ func run() {
 	w.SetTitle("Ghost Man")
 	w.LoadHtml(views.Str_index, "")
 	w.Show()
+	w.Call("setupData", sciter.NewValue(method), sciter.NewValue(url), sciter.NewValue(body))
 	w.Run()
 }
 
@@ -60,6 +96,7 @@ func bindFuncs(w *window.Window) {
 				return
 			}
 
+			go setOldData(method, url, body)
 			w.Call("response", sciter.NewValue(status), sciter.NewValue(util.MarshalMap(rpheader)), sciter.NewValue(rpbody))
 		}()
 		return sciter.NullValue()

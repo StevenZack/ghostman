@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func DoReq(method, url, body string, headers map[string]string) (string, map[string]string, string, error) {
@@ -17,7 +18,9 @@ func DoReq(method, url, body string, headers map[string]string) (string, map[str
 		r.Header.Set(k, v)
 	}
 
-	c := http.Client{}
+	c := http.Client{
+		Timeout: time.Second * 10,
+	}
 	rp, e := c.Do(r)
 	if e != nil {
 		return "", nil, "", e
