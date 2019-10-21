@@ -1,8 +1,6 @@
 package main
 
 import (
-	"strings"
-
 	"github.com/StevenZack/ghostman/logx"
 	"github.com/StevenZack/ghostman/util"
 	"github.com/StevenZack/ghostman/views"
@@ -27,6 +25,20 @@ func run() {
 }
 
 func bindFuncs(w *window.Window) {
+	w.DefineFunction("showErr", func(args ...*sciter.Value) *sciter.Value {
+		w2, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_ENABLE_DEBUG, sciter.NewRect(200, 200, 300, 200))
+		if e != nil {
+			logx.Error(e)
+			return sciter.NullValue()
+		}
+		w2.SetTitle("错误")
+
+		w2.LoadHtml(views.Str_error, "")
+		w2.Show()
+		w2.Call("showInfo", args[0])
+		return sciter.NullValue()
+	})
+
 	w.DefineFunction("doReq", func(args ...*sciter.Value) *sciter.Value {
 		if len(args) != 4 {
 			panic("args.len!=4")
@@ -36,7 +48,7 @@ func bindFuncs(w *window.Window) {
 		header, e := util.UnmarshalMap(args[2].String())
 		if e != nil {
 			logx.Error(e)
-			showErr(e)
+			showErr(w, e)
 			return sciter.NullValue()
 		}
 		body := args[3].String()
@@ -44,7 +56,7 @@ func bindFuncs(w *window.Window) {
 			status, rpheader, rpbody, e := util.DoReq(method, url, body, header)
 			if e != nil {
 				logx.Error(e)
-				showErr(e)
+				showErr(w, e)
 				return
 			}
 
@@ -54,15 +66,6 @@ func bindFuncs(w *window.Window) {
 	})
 }
 
-func showErr(e error) {
-	w, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS, sciter.NewRect(120, 150, 100, 100))
-	if e != nil {
-		logx.Error(e)
-		return
-	}
-	w.SetTitle("错误")
-
-	str := strings.Replace(views.Str_error, `{{.}}`, e.Error(), -1)
-	w.LoadHtml(str, "")
-	w.Show()
+func showErr(w *window.Window, e error) {
+	w.Eval(`view.showErr('` + e.Error() + `')`)
 }
