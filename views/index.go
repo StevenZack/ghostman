@@ -34,12 +34,15 @@ var Str_index =`<!DOCTYPE html>
     <h2>
         Response: 
     </h2>
+    <br>
     <div>status:</div>
     <div id="rpstatus"></div>
+    <br>
     <div>headers:</div>
     <div id="rpheaders"></div>
+    <br>
     <div>body:</div>
-    <textarea id="rpbody" cols="30" rows="10" readonly></textarea>
+    <textarea id="rpbody" cols="30" rows="10" readonly style="width: *;"></textarea>
     <script type="text/tiscript">
         self.ready=function(){
     $(#send).on("click",function() {
