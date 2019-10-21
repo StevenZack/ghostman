@@ -13,11 +13,10 @@ func DoReq(method, url, body string, headers map[string]string) (string, map[str
 	if e != nil {
 		return "", nil, "", e
 	}
-
+	r.Header.Set("Content-Type", "text/json")
 	for k, v := range headers {
 		r.Header.Set(k, v)
 	}
-
 	c := http.Client{
 		Timeout: time.Second * 10,
 	}

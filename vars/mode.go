@@ -1,3 +1,3 @@
 package vars
 
-const Mode = "debug"
+const Mode = "release"
