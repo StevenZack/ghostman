@@ -96,6 +96,10 @@ func bindFuncs(w *window.Window) {
 				return
 			}
 
+			if status != "200 OK" {
+				w.Eval(`view.showErr('` + rpbody + `')`)
+				return
+			}
 			go setOldData(method, url, body)
 			w.Call("response", sciter.NewValue(status), sciter.NewValue(util.MarshalMap(rpheader)), sciter.NewValue(rpbody))
 		}()
