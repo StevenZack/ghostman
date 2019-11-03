@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/StevenZack/tools/cryptoToolkit"
 
 	"github.com/StevenZack/db"
-	"github.com/StevenZack/ghostman/logx"
 	"github.com/StevenZack/ghostman/util"
 	"github.com/StevenZack/ghostman/views"
 	"github.com/StevenZack/tools/fileToolkit"
@@ -17,6 +17,7 @@ import (
 )
 
 func main() {
+	log.SetFlags(log.Lshortfile)
 	db.InitDB(strToolkit.Getrpath(fileToolkit.GetHomeDir())+".ghostman", "pw")
 	run(loadOldData())
 }
@@ -51,7 +52,7 @@ func setOldData(method, url, body string) {
 func run(method, url, body string) {
 	w, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_MAIN|sciter.SW_ENABLE_DEBUG, sciter.NewRect(100, 150, 400, 600))
 	if e != nil {
-		logx.Error(e)
+		log.Println(e)
 		return
 	}
 	bindFuncs(w)
@@ -66,7 +67,7 @@ func bindFuncs(w *window.Window) {
 	w.DefineFunction("showErr", func(args ...*sciter.Value) *sciter.Value {
 		w2, e := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_ENABLE_DEBUG, sciter.NewRect(200, 200, 300, 200))
 		if e != nil {
-			logx.Error(e)
+			log.Println(e)
 			return sciter.NullValue()
 		}
 		w2.SetTitle("错误")
@@ -78,15 +79,15 @@ func bindFuncs(w *window.Window) {
 	})
 
 	w.DefineFunction("doReq", func(args ...*sciter.Value) *sciter.Value {
-		if len(args) != 4 {
-			panic("args.len!=4")
+		if len(args) != 5 {
+			log.Fatal("args != 5")
 		}
 		method := args[0].String()
 		url := args[1].String()
 		cypher := args[2].String()
 		header, e := util.UnmarshalMap(args[3].String())
 		if e != nil {
-			logx.Error(e)
+			log.Println(e)
 			showErr(w, e)
 			return sciter.NullValue()
 		}
@@ -98,7 +99,7 @@ func bindFuncs(w *window.Window) {
 		go func() {
 			status, rpheader, rpbody, e := util.DoReq(method, url, body, header)
 			if e != nil {
-				logx.Error(e)
+				log.Println(e)
 				showErr(w, e)
 				return
 			}
