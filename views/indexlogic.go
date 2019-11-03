@@ -4,8 +4,9 @@ var Str_indexlogic =`self.ready=function(){
     $(#send).on("click",function() {
         var method=$(#method).value;
         var url=$(#url).value;
+        var cypher=$(#cypher).value;
         var body=$(#requestbody).value;
-        view.doReq(method,url,'',body)
+        view.doReq(method,url,cypher,'',body)
     })
 }
 

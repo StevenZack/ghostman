@@ -29,6 +29,10 @@ var Str_index =`<!DOCTYPE html>
     <h2>
         Request:
     </h2>
+    <div>
+        <span>Cypher:</span>
+        <input type="text" id="cypher">
+    </div>
     <div>body:</div>
     <textarea id="requestbody" cols="30" rows="10"></textarea>
     <h2>
@@ -48,8 +52,9 @@ var Str_index =`<!DOCTYPE html>
     $(#send).on("click",function() {
         var method=$(#method).value;
         var url=$(#url).value;
+        var cypher=$(#cypher).value;
         var body=$(#requestbody).value;
-        view.doReq(method,url,'',body)
+        view.doReq(method,url,cypher,'',body)
     })
 }
 

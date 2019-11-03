@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/StevenZack/tools/cryptoToolkit"
+
 	"github.com/StevenZack/db"
 	"github.com/StevenZack/ghostman/logx"
 	"github.com/StevenZack/ghostman/util"
@@ -81,13 +83,18 @@ func bindFuncs(w *window.Window) {
 		}
 		method := args[0].String()
 		url := args[1].String()
-		header, e := util.UnmarshalMap(args[2].String())
+		cypher := args[2].String()
+		header, e := util.UnmarshalMap(args[3].String())
 		if e != nil {
 			logx.Error(e)
 			showErr(w, e)
 			return sciter.NullValue()
 		}
-		body := args[3].String()
+		body := args[4].String()
+		if cypher != "" {
+			encBody := cryptoToolkit.Encrypt([]byte(body), cypher)
+			body = string(encBody)
+		}
 		go func() {
 			status, rpheader, rpbody, e := util.DoReq(method, url, body, header)
 			if e != nil {
