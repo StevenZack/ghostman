@@ -58,9 +58,10 @@ var Str_index =`<!DOCTYPE html>
     })
 }
 
-function setupData(method,url,rbody) {
+function setupData(method,url,cypher,header,rbody) {
     $(#method).value=method;
     $(#url).value=url;
+    $(#cypher).value=cypher;
     $(#requestbody).value=rbody;
 }
 
@@ -68,6 +69,10 @@ function response(status,header,body){
     $(#rpstatus).text=status;
     $(#rpheaders).text=header;
     $(#rpbody).value=body;
+}
+
+function showErr(e){
+    view.showErr(e);
 }
     </script>
 </body>
