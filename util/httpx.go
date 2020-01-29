@@ -13,7 +13,7 @@ func DoReq(method, url, body string, headers map[string]string) (string, map[str
 	if e != nil {
 		return "", nil, "", e
 	}
-	r.Header.Set("Content-Type", "text/json")
+	r.Header.Set("Content-Type", "application/json")
 	for k, v := range headers {
 		r.Header.Set(k, v)
 	}

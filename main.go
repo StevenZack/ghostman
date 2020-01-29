@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-
-	"github.com/StevenZack/tools/cryptoToolkit"
+	"strconv"
+	"time"
 
 	"github.com/StevenZack/db"
 	"github.com/StevenZack/ghostman/util"
@@ -107,17 +107,11 @@ func bindFuncs(w *window.Window) {
 			return sciter.NullValue()
 		}
 		body := args[4].String()
-		encBody := ""
 		if cypher != "" {
-			encBodyB := cryptoToolkit.Encrypt([]byte(body), cypher)
-			encBody = string(encBodyB)
+			header["Authorization"] = strToolkit.MD5from(body + cypher + strconv.Itoa(time.Now().Hour()))
 		}
 		go func() {
-			bodyToSend := body
-			if cypher != "" {
-				bodyToSend = encBody
-			}
-			status, rpheader, rpbody, e := util.DoReq(method, url, bodyToSend, header)
+			status, rpheader, rpbody, e := util.DoReq(method, url, body, header)
 			if e != nil {
 				log.Println(e)
 				showErr(w, e.Error())
